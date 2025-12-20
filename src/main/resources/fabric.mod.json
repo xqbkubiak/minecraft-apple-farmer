@@ -1,0 +1,31 @@
+{
+    "schemaVersion": 1,
+    "id": "applebot",
+    "version": "${version}",
+    "name": "Apple Bot",
+    "description": "Background apple farming bot",
+    "authors": [
+        "bkubiakdev"
+    ],
+    "contact": {
+        "homepage": "https://bkubiak.dev"
+    },
+    "license": "MIT",
+    "icon": "assets/applebot/icon_v2.png",
+    "environment": "*",
+    "entrypoints": {
+        "main": [
+            "com.bkubiak.applebot.AppleBot"
+        ],
+        "client": [
+            "com.bkubiak.applebot.AppleBotClient"
+        ]
+    },
+    "mixins": [],
+    "depends": {
+        "fabricloader": ">=0.16.10",
+        "minecraft": ">=1.21.4",
+        "java": ">=21",
+        "fabric-api": "*"
+    }
+}
