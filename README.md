@@ -12,7 +12,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Minecraft-1.21.4-brightgreen?style=flat-square" alt="Minecraft Version">
   <img src="https://img.shields.io/badge/Mod%20Loader-Fabric-blue?style=flat-square" alt="Fabric">
-  <img src="https://img.shields.io/badge/Version-2.6-orange?style=flat-square" alt="Version">
+  <img src="https://img.shields.io/badge/Version-2.7-orange?style=flat-square" alt="Version">
   <img src="https://img.shields.io/badge/Java-21+-red?style=flat-square" alt="Java">
 </p>
 
