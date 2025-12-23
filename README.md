@@ -48,6 +48,11 @@ If you use this mod and find it helpful, feel free to share the love! ❤️
 - **Configurable Cycles** - Set how many farming cycles before depositing (20/100/500/1000/2000)
 - **Smart Chest Interaction** - Rotates to chest, deposits apples, returns to farming
 
+### 🧲 Pickup System
+- **Anti-Stacking Solution** - Addresses server-side item stacking issues that prevent pickup
+- **Smart Pause** - Periodically pauses farming to allow items to be collected/magnetized
+- **Configurable** - Set interval cycles and wait time to match your server's physics
+
 ### 🌍 Localization
 - **Multi-language Support** - Full Polish and English translations
 - **Easy Switching** - Switch language with a simple command
@@ -78,6 +83,7 @@ If you use this mod and find it helpful, feel free to share the love! ❤️
 | `/xqbk config repaircmd <command>` | Set repair command |
 | `/xqbk config autoeat <on/off>` | Toggle auto-eating |
 | `/xqbk config storage <on/off> [cycles]` | Configure storage mode |
+| `/xqbk config pickupcooldown <cycles> <seconds>` | Set pickup cooldown (0 to disable) |
 | `/xqbk pl` | Switch to Polish |
 | `/xqbk en` | Switch to English |
 
@@ -94,6 +100,9 @@ For optimal use, set up your hotbar like this:
 
 ## ⚙️ Configuration
 
+The mod automatically generates a configuration file at `config/applebot.json`.
+You can edit this file manually or use the in-game commands. **All changes made via commands are automatically saved!**
+
 ### Repair Modes
 - **OFF** - No automatic tool repair
 - **COMMAND** - Uses server command (default: `/repair`)
@@ -104,6 +113,12 @@ For optimal use, set up your hotbar like this:
 - **Delay 3-5**: Fast (recommended)
 - **Delay 6-10**: Medium
 - **Delay 11-20**: Slow (for laggy servers)
+
+### Pickup Cooldown
+- **Function**: Pauses farming every X cycles to wait for item pickup
+- **Usage**: `/xqbk config pickupcooldown <cycles> <seconds>`
+- **Example**: `/xqbk config pickupcooldown 50 5` (Pause every 50 cycles for 5 seconds)
+- **Disable**: Set cycles to 0 (or use `/xqbk config pickupcooldown off`)
 
 ---
 
