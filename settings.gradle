@@ -1,0 +1,21 @@
+pluginManagement {
+    repositories {
+        maven { url "https://maven.fabricmc.net/" }
+        gradlePluginPortal()
+    }
+}
+
+rootProject.name = "applebot"
+
+include 'common'
+include '1.21.11'
+include '1.21.10'
+include '1.21.8'
+include '1.21.6'
+include '1.21.5'
+include '1.21.4'
+include '1.21.3'
+include '1.21.1'
+include '1.20.6'
+include '1.20.4'
+include '1.20.1'
