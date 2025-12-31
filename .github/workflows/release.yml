@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*' # Triggers on tags starting with v, e.g., v3.0
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
