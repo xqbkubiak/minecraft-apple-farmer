@@ -1,4 +1,4 @@
-name: Sync Version Branches
+name: Sync Version Branches (Flattened)
 
 on:
   push:
@@ -17,68 +17,45 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Sync 1.20.1
+      - name: Configure Git
         run: |
-          git subtree split --prefix=1.20.1 -b temp-1.20.1
-          git push origin temp-1.20.1:ver/1.20.1 --force
-          git branch -D temp-1.20.1
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Sync 1.20.4
+      - name: Sync All Versions
         run: |
-          git subtree split --prefix=1.20.4 -b temp-1.20.4
-          git push origin temp-1.20.4:ver/1.20.4 --force
-          git branch -D temp-1.20.4
-
-      - name: Sync 1.20.6
-        run: |
-          git subtree split --prefix=1.20.6 -b temp-1.20.6
-          git push origin temp-1.20.6:ver/1.20.6 --force
-          git branch -D temp-1.20.6
-
-      - name: Sync 1.21.1
-        run: |
-          git subtree split --prefix=1.21.1 -b temp-1.21.1
-          git push origin temp-1.21.1:ver/1.21.1 --force
-          git branch -D temp-1.21.1
-
-      - name: Sync 1.21.3
-        run: |
-          git subtree split --prefix=1.21.3 -b temp-1.21.3
-          git push origin temp-1.21.3:ver/1.21.3 --force
-          git branch -D temp-1.21.3
-
-      - name: Sync 1.21.4
-        run: |
-          git subtree split --prefix=1.21.4 -b temp-1.21.4
-          git push origin temp-1.21.4:ver/1.21.4 --force
-          git branch -D temp-1.21.4
-
-      - name: Sync 1.21.5
-        run: |
-          git subtree split --prefix=1.21.5 -b temp-1.21.5
-          git push origin temp-1.21.5:ver/1.21.5 --force
-          git branch -D temp-1.21.5
-
-      - name: Sync 1.21.6
-        run: |
-          git subtree split --prefix=1.21.6 -b temp-1.21.6
-          git push origin temp-1.21.6:ver/1.21.6 --force
-          git branch -D temp-1.21.6
-
-      - name: Sync 1.21.8
-        run: |
-          git subtree split --prefix=1.21.8 -b temp-1.21.8
-          git push origin temp-1.21.8:ver/1.21.8 --force
-          git branch -D temp-1.21.8
-
-      - name: Sync 1.21.10
-        run: |
-          git subtree split --prefix=1.21.10 -b temp-1.21.10
-          git push origin temp-1.21.10:ver/1.21.10 --force
-          git branch -D temp-1.21.10
-
-      - name: Sync 1.21.11
-        run: |
-          git subtree split --prefix=1.21.11 -b temp-1.21.11
-          git push origin temp-1.21.11:ver/1.21.11 --force
-          git branch -D temp-1.21.11
+          VERSIONS=("1.20.1" "1.20.4" "1.20.6" "1.21.1" "1.21.3" "1.21.4" "1.21.5" "1.21.6" "1.21.8" "1.21.10" "1.21.11")
+          
+          for VER in "${VERSIONS[@]}"; do
+            echo "Processing version $VER..."
+            
+            # 1. Create temporary directory
+            TEMP_DIR="temp_sync_$VER"
+            mkdir -p $TEMP_DIR
+            
+            # 2. Copy root files (gradlew, wrapper, .gitignore, LICENSE, README)
+            cp -r gradle gradlew gradlew.bat .gitignore LICENSE README.md gradle.properties settings.gradle $TEMP_DIR/
+            
+            # 3. Copy version-specific files (build.gradle and mod-specific src)
+            # In your case, build.gradle in root refers to subprojects. 
+            # We need to adapt it slightly for a single project.
+            cp $VER/build.gradle $TEMP_DIR/build.gradle
+            
+            # 4. Merge src (Common + Version Specific)
+            mkdir -p $TEMP_DIR/src
+            if [ -d "common/src" ]; then cp -r common/src/* $TEMP_DIR/src/; fi
+            if [ -d "$VER/src" ]; then cp -r $VER/src/* $TEMP_DIR/src/; fi
+            
+            # 5. Fix build.gradle paths (removing subproject references if any)
+            # (In this project, version-specific build.gradle is already mostly standalone)
+            
+            # 6. Push to branch
+            cd $TEMP_DIR
+            git init
+            git add .
+            git commit -m "Auto-sync $VER from main"
+            git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+            git push origin HEAD:refs/heads/ver/$VER --force
+            cd ..
+            rm -rf $TEMP_DIR
+          done
