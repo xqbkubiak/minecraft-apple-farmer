@@ -3,7 +3,7 @@
     "id": "applebot",
     "version": "${version}",
     "name": "Apple Bot",
-    "description": "Take your orchard to the next level with advanced automated harvesting. A high-performance background bot engineered for precision apple farming and maximum yield.",
+    "description": "Take your orchard to the next level with advanced automated harvesting. Advanced v3.0 bot with Anti-Stacking tech. Take your orchard to the next level with precision harvesting and auto-restock.",
     "authors": [
         "bkubiakdev"
     ],

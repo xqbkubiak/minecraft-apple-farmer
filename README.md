@@ -32,9 +32,10 @@
 
 ### 🤖 Advanced Automation
 - **High-Performance Harvesting** - Optimized cycles for maximum apple yield.
+- **Anti-Stacking Solution** - New in v3.0! Fixes issues with item stacking on some servers. The bot automatically pauses to allow items to be collected.
+  - Command: `/bka config pickupcooldown <cycles> <seconds>`
 - **Background Mode** - Full automation even when the game window is not focused.
-- **Smart Tool Rotation** - Intelligent switching between shears and leaf placement.
-- **Auto-Restock System** - Intelligence-driven supply replenishment. The bot automatically faces a chest, opens it, and refills on leaves and iron when running low.
+- **Auto-Restock System** - Intelligence-driven supply replenishment.
 - **Cycle Monitoring** - Real-time tracking of your farming progress.
 
 ### 🔧 Tool & Resource Management
