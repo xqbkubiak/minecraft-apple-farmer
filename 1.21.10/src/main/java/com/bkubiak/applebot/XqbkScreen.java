@@ -308,7 +308,7 @@ public class XqbkScreen extends Screen {
     }
 
     private static class GreenButton extends ButtonWidget {
-        private final int borderColor;
+        protected final int borderColor;
 
         public GreenButton(int x, int y, int width, int height, String text, PressAction onPress, int borderColor) {
             super(x, y, width, height, Text.of(text), onPress, DEFAULT_NARRATION_SUPPLIER);
@@ -320,17 +320,45 @@ public class XqbkScreen extends Screen {
             int bgColor = this.isHovered() ? 0xFF1A3A1A : 0xFF0A1A0A;
             context.fill(getX(), getY(), getX() + width, getY() + height, bgColor);
 
-            context.fill(getX(), getY(), getX() + width, getY() + 1, borderColor);
-            context.fill(getX(), getY() + height - 1, getX() + width, getY() + height, borderColor);
-            context.fill(getX(), getY(), getX() + 1, getY() + height, borderColor);
-            context.fill(getX() + width - 1, getY(), getX() + width, getY() + height, borderColor);
+            int colorToDraw = getBorderColor();
+            context.fill(getX(), getY(), getX() + width, getY() + 1, colorToDraw);
+            context.fill(getX(), getY() + height - 1, getX() + width, getY() + height, colorToDraw);
+            context.fill(getX(), getY(), getX() + 1, getY() + height, colorToDraw);
+            context.fill(getX() + width - 1, getY(), getX() + width, getY() + height, colorToDraw);
 
             var tr = net.minecraft.client.MinecraftClient.getInstance().textRenderer;
-            int textWidth = tr.getWidth(getMessage());
+            Text msg = getMessage();
+            int textWidth = tr.getWidth(msg);
             int textX = getX() + (width - textWidth) / 2;
             int textY = getY() + (height - 8) / 2;
-            int textColor = this.isHovered() ? 0xFFFFFFFF : borderColor;
-            context.drawTextWithShadow(tr, getMessage(), textX, textY, textColor);
+            int textColor = this.isHovered() ? 0xFFFFFFFF : colorToDraw;
+            context.drawTextWithShadow(tr, msg, textX, textY, textColor);
+        }
+
+        protected int getBorderColor() {
+            return borderColor;
+        }
+    }
+
+    private static class StatusButton extends GreenButton {
+        private final java.util.function.Supplier<String> textSupplier;
+        private final java.util.function.Supplier<Integer> colorSupplier;
+
+        public StatusButton(int x, int y, int width, int height, java.util.function.Supplier<String> textSupplier,
+                PressAction onPress, java.util.function.Supplier<Integer> colorSupplier) {
+            super(x, y, width, height, "", onPress, 0);
+            this.textSupplier = textSupplier;
+            this.colorSupplier = colorSupplier;
+        }
+
+        @Override
+        public Text getMessage() {
+            return Text.of(textSupplier.get());
+        }
+
+        @Override
+        protected int getBorderColor() {
+            return colorSupplier.get();
         }
     }
 }

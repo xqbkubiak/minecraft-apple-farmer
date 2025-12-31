@@ -20,6 +20,13 @@ base {
     archivesName = "${project.archives_base_name}-1.20.1"
 }
 
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
 tasks.withType(JavaCompile).configureEach {
     it.options.release = 17
 }

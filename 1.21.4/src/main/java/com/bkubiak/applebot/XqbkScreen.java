@@ -133,20 +133,22 @@ public class XqbkScreen extends Screen {
                 }, COLOR_GRAY));
 
         int modeBtnWidth = 90;
-        this.addDrawableChild(new GreenButton(
+        this.addDrawableChild(new StatusButton(
                 panelX + panelW - modeBtnWidth - margin, repairSectionY, modeBtnWidth, 16,
-                "Mode: " + bot.getRepairModeName(), button -> {
+                () -> "Mode: " + bot.getRepairModeName(),
+                button -> {
                     bot.cycleRepairMode();
-                    button.setMessage(Text.of("Mode: " + bot.getRepairModeName()));
-                }, bot.getRepairMode() == 0 ? COLOR_RED : COLOR_GREEN));
+                },
+                () -> bot.getRepairMode() == 0 ? COLOR_RED : COLOR_GREEN));
 
         int eatBtnWidth = 70;
-        this.addDrawableChild(new GreenButton(
+        this.addDrawableChild(new StatusButton(
                 panelX + panelW - modeBtnWidth - eatBtnWidth - margin - 5, repairSectionY, eatBtnWidth, 16,
-                "Eat: " + (bot.isAutoEat() ? "ON" : "OFF"), button -> {
+                () -> "Eat: " + (bot.isAutoEat() ? "ON" : "OFF"),
+                button -> {
                     bot.setAutoEat(!bot.isAutoEat());
-                    button.setMessage(Text.of("Eat: " + (bot.isAutoEat() ? "ON" : "OFF")));
-                }, bot.isAutoEat() ? COLOR_GREEN : COLOR_RED));
+                },
+                () -> bot.isAutoEat() ? COLOR_GREEN : COLOR_RED));
 
         int fieldWidth = 90;
         repairCommandField = new TextFieldWidget(
@@ -165,12 +167,13 @@ public class XqbkScreen extends Screen {
 
         int storageBtnWidth = (panelW - (margin * 2) - 10) / 2;
 
-        this.addDrawableChild(new GreenButton(
+        this.addDrawableChild(new StatusButton(
                 panelX + margin, storageSectionY, storageBtnWidth, 16,
-                "Storage: " + (bot.isStorageMode() ? "ON" : "OFF"), button -> {
+                () -> "Storage: " + (bot.isStorageMode() ? "ON" : "OFF"),
+                button -> {
                     bot.setStorageMode(!bot.isStorageMode());
-                    button.setMessage(Text.of("Storage: " + (bot.isStorageMode() ? "ON" : "OFF")));
-                }, bot.isStorageMode() ? COLOR_GREEN : COLOR_RED));
+                },
+                () -> bot.isStorageMode() ? COLOR_GREEN : COLOR_RED));
 
         this.addDrawableChild(new GreenButton(
                 panelX + margin + storageBtnWidth + 10, storageSectionY, storageBtnWidth, 16,
@@ -179,12 +182,13 @@ public class XqbkScreen extends Screen {
                     button.setMessage(Text.of("Cycles: " + bot.getStorageCycles()));
                 }, COLOR_GRAY));
 
-        this.addDrawableChild(new GreenButton(
+        this.addDrawableChild(new StatusButton(
                 panelX + margin, restockSectionY, panelW - (margin * 2), 16,
-                bot.t("restock") + ": " + (bot.isRestockMode() ? "ON" : "OFF"), button -> {
+                () -> bot.t("restock") + ": " + (bot.isRestockMode() ? "ON" : "OFF"),
+                button -> {
                     bot.setRestockMode(!bot.isRestockMode());
-                    button.setMessage(Text.of(bot.t("restock") + ": " + (bot.isRestockMode() ? "ON" : "OFF")));
-                }, bot.isRestockMode() ? COLOR_GREEN : COLOR_RED));
+                },
+                () -> bot.isRestockMode() ? COLOR_GREEN : COLOR_RED));
 
         int socialBtnWidth = 80;
         int socialGap = 10;
@@ -308,7 +312,7 @@ public class XqbkScreen extends Screen {
     }
 
     private static class GreenButton extends ButtonWidget {
-        private final int borderColor;
+        protected final int borderColor;
 
         public GreenButton(int x, int y, int width, int height, String text, PressAction onPress, int borderColor) {
             super(x, y, width, height, Text.of(text), onPress, DEFAULT_NARRATION_SUPPLIER);
@@ -320,17 +324,45 @@ public class XqbkScreen extends Screen {
             int bgColor = this.isHovered() ? 0xFF1A3A1A : 0xFF0A1A0A;
             context.fill(getX(), getY(), getX() + width, getY() + height, bgColor);
 
-            context.fill(getX(), getY(), getX() + width, getY() + 1, borderColor);
-            context.fill(getX(), getY() + height - 1, getX() + width, getY() + height, borderColor);
-            context.fill(getX(), getY(), getX() + 1, getY() + height, borderColor);
-            context.fill(getX() + width - 1, getY(), getX() + width, getY() + height, borderColor);
+            int colorToDraw = getBorderColor();
+            context.fill(getX(), getY(), getX() + width, getY() + 1, colorToDraw);
+            context.fill(getX(), getY() + height - 1, getX() + width, getY() + height, colorToDraw);
+            context.fill(getX(), getY(), getX() + 1, getY() + height, colorToDraw);
+            context.fill(getX() + width - 1, getY(), getX() + width, getY() + height, colorToDraw);
 
             var tr = net.minecraft.client.MinecraftClient.getInstance().textRenderer;
-            int textWidth = tr.getWidth(getMessage());
+            Text msg = getMessage();
+            int textWidth = tr.getWidth(msg);
             int textX = getX() + (width - textWidth) / 2;
             int textY = getY() + (height - 8) / 2;
-            int textColor = this.isHovered() ? 0xFFFFFFFF : borderColor;
-            context.drawTextWithShadow(tr, getMessage(), textX, textY, textColor);
+            int textColor = this.isHovered() ? 0xFFFFFFFF : colorToDraw;
+            context.drawTextWithShadow(tr, msg, textX, textY, textColor);
+        }
+
+        protected int getBorderColor() {
+            return borderColor;
+        }
+    }
+
+    private static class StatusButton extends GreenButton {
+        private final java.util.function.Supplier<String> textSupplier;
+        private final java.util.function.Supplier<Integer> colorSupplier;
+
+        public StatusButton(int x, int y, int width, int height, java.util.function.Supplier<String> textSupplier,
+                PressAction onPress, java.util.function.Supplier<Integer> colorSupplier) {
+            super(x, y, width, height, "", onPress, 0);
+            this.textSupplier = textSupplier;
+            this.colorSupplier = colorSupplier;
+        }
+
+        @Override
+        public Text getMessage() {
+            return Text.of(textSupplier.get());
+        }
+
+        @Override
+        protected int getBorderColor() {
+            return colorSupplier.get();
         }
     }
 }

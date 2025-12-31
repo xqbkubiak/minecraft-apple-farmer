@@ -39,7 +39,7 @@ public class XqbkScreen extends Screen {
     private TextFieldWidget repairCommandField;
 
     public XqbkScreen(AppleBotClientBase bot) {
-        super(Text.of("BK-Apple - Control Panel"));
+        super(net.minecraft.text.Text.literal("BK-Apple - Control Panel"));
         this.bot = bot;
     }
 
@@ -133,20 +133,22 @@ public class XqbkScreen extends Screen {
                 }, COLOR_GRAY));
 
         int modeBtnWidth = 90;
-        this.addDrawableChild(new GreenButton(
+        this.addDrawableChild(new StatusButton(
                 panelX + panelW - modeBtnWidth - margin, repairSectionY, modeBtnWidth, 16,
-                "Mode: " + bot.getRepairModeName(), button -> {
+                () -> "Mode: " + bot.getRepairModeName(),
+                button -> {
                     bot.cycleRepairMode();
-                    button.setMessage(Text.of("Mode: " + bot.getRepairModeName()));
-                }, bot.getRepairMode() == 0 ? COLOR_RED : COLOR_GREEN));
+                },
+                () -> bot.getRepairMode() == 0 ? COLOR_RED : COLOR_GREEN));
 
         int eatBtnWidth = 70;
-        this.addDrawableChild(new GreenButton(
+        this.addDrawableChild(new StatusButton(
                 panelX + panelW - modeBtnWidth - eatBtnWidth - margin - 5, repairSectionY, eatBtnWidth, 16,
-                "Eat: " + (bot.isAutoEat() ? "ON" : "OFF"), button -> {
+                () -> "Eat: " + (bot.isAutoEat() ? "ON" : "OFF"),
+                button -> {
                     bot.setAutoEat(!bot.isAutoEat());
-                    button.setMessage(Text.of("Eat: " + (bot.isAutoEat() ? "ON" : "OFF")));
-                }, bot.isAutoEat() ? COLOR_GREEN : COLOR_RED));
+                },
+                () -> bot.isAutoEat() ? COLOR_GREEN : COLOR_RED));
 
         int fieldWidth = 90;
         repairCommandField = new TextFieldWidget(
@@ -155,7 +157,7 @@ public class XqbkScreen extends Screen {
                 repairSectionY,
                 fieldWidth,
                 16,
-                Text.of(""));
+                net.minecraft.text.Text.literal(""));
         repairCommandField.setText(bot.getRepairCommand());
         repairCommandField.setMaxLength(20);
         repairCommandField.setChangedListener(text -> {
@@ -165,26 +167,28 @@ public class XqbkScreen extends Screen {
 
         int storageBtnWidth = (panelW - (margin * 2) - 10) / 2;
 
-        this.addDrawableChild(new GreenButton(
+        this.addDrawableChild(new StatusButton(
                 panelX + margin, storageSectionY, storageBtnWidth, 16,
-                "Storage: " + (bot.isStorageMode() ? "ON" : "OFF"), button -> {
+                () -> "Storage: " + (bot.isStorageMode() ? "ON" : "OFF"),
+                button -> {
                     bot.setStorageMode(!bot.isStorageMode());
-                    button.setMessage(Text.of("Storage: " + (bot.isStorageMode() ? "ON" : "OFF")));
-                }, bot.isStorageMode() ? COLOR_GREEN : COLOR_RED));
+                },
+                () -> bot.isStorageMode() ? COLOR_GREEN : COLOR_RED));
 
         this.addDrawableChild(new GreenButton(
                 panelX + margin + storageBtnWidth + 10, storageSectionY, storageBtnWidth, 16,
                 "Cycles: " + bot.getStorageCycles(), button -> {
                     bot.cycleStorageCycles();
-                    button.setMessage(Text.of("Cycles: " + bot.getStorageCycles()));
+                    button.setMessage(net.minecraft.text.Text.literal("Cycles: " + bot.getStorageCycles()));
                 }, COLOR_GRAY));
 
-        this.addDrawableChild(new GreenButton(
+        this.addDrawableChild(new StatusButton(
                 panelX + margin, restockSectionY, panelW - (margin * 2), 16,
-                bot.t("restock") + ": " + (bot.isRestockMode() ? "ON" : "OFF"), button -> {
+                () -> bot.t("restock") + ": " + (bot.isRestockMode() ? "ON" : "OFF"),
+                button -> {
                     bot.setRestockMode(!bot.isRestockMode());
-                    button.setMessage(Text.of(bot.t("restock") + ": " + (bot.isRestockMode() ? "ON" : "OFF")));
-                }, bot.isRestockMode() ? COLOR_GREEN : COLOR_RED));
+                },
+                () -> bot.isRestockMode() ? COLOR_GREEN : COLOR_RED));
 
         int socialBtnWidth = 80;
         int socialGap = 10;
@@ -212,23 +216,23 @@ public class XqbkScreen extends Screen {
 
         int headerY = panelY + (isCompact ? 8 : 12);
         context.fill(panelX + 4, headerY - 4, panelX + panelW - 4, headerY + 12, COLOR_HEADER_BG);
-        context.drawTextWithShadow(this.textRenderer, Text.of("§2BK-§aApple"), panelX + 15, headerY, COLOR_ACCENT);
-        context.drawTextWithShadow(this.textRenderer, Text.of("- AFK Farmer"), panelX + 72, headerY, COLOR_WHITE);
+        context.drawTextWithShadow(this.textRenderer, net.minecraft.text.Text.literal("§2BK-§aApple"), panelX + 15, headerY, COLOR_ACCENT);
+        context.drawTextWithShadow(this.textRenderer, net.minecraft.text.Text.literal("- AFK Farmer"), panelX + 72, headerY, COLOR_WHITE);
 
         String statusText = bot.isRunning() ? bot.t("active") : bot.t("inactive");
         int statusColor = bot.isRunning() ? COLOR_GREEN : COLOR_RED;
-        context.drawTextWithShadow(this.textRenderer, Text.of("\u2022 " + statusText), panelX + panelW - 95,
+        context.drawTextWithShadow(this.textRenderer, net.minecraft.text.Text.literal("\u2022 " + statusText), panelX + panelW - 95,
                 headerY, statusColor);
 
         String playerName = client.player != null ? client.player.getName().getString() : "---";
-        context.drawTextWithShadow(this.textRenderer, Text.of(bot.t("profile") + ": " + playerName), panelX + 15,
+        context.drawTextWithShadow(this.textRenderer, net.minecraft.text.Text.literal(bot.t("profile") + ": " + playerName), panelX + 15,
                 headerY + (isCompact ? 14 : 18), COLOR_GRAY);
 
         int tableHeaderY = panelY + headerH;
-        context.drawTextWithShadow(this.textRenderer, Text.of("#"), panelX + 15, tableHeaderY, 0xFF666666);
-        context.drawTextWithShadow(this.textRenderer, Text.of(bot.t("function")), panelX + 35, tableHeaderY,
+        context.drawTextWithShadow(this.textRenderer, net.minecraft.text.Text.literal("#"), panelX + 15, tableHeaderY, 0xFF666666);
+        context.drawTextWithShadow(this.textRenderer, net.minecraft.text.Text.literal(bot.t("function")), panelX + 35, tableHeaderY,
                 0xFF666666);
-        context.drawTextWithShadow(this.textRenderer, Text.of(bot.t("status")), panelX + panelW - 80, tableHeaderY,
+        context.drawTextWithShadow(this.textRenderer, net.minecraft.text.Text.literal(bot.t("status")), panelX + panelW - 80, tableHeaderY,
                 0xFF666666);
         context.fill(panelX + 8, tableHeaderY + 12, panelX + panelW - 8, tableHeaderY + 13, COLOR_ROW_LINE);
 
@@ -251,7 +255,7 @@ public class XqbkScreen extends Screen {
         int tableEndY = panelY + headerH + tableHeadH + (rowH * 6);
         int repairSectionY = tableEndY + gap;
         int textY = repairSectionY + (isCompact ? 4 : 5);
-        context.drawTextWithShadow(this.textRenderer, Text.of(bot.t("command") + ":"), panelX + 15, textY,
+        context.drawTextWithShadow(this.textRenderer, net.minecraft.text.Text.literal(bot.t("command") + ":"), panelX + 15, textY,
                 COLOR_GRAY);
 
         super.render(context, mouseX, mouseY, delta);
@@ -284,9 +288,9 @@ public class XqbkScreen extends Screen {
 
     private void drawTableRow(DrawContext context, int num, String label, String value, int labelColor, int valueColor,
             int y) {
-        context.drawTextWithShadow(this.textRenderer, Text.of(String.valueOf(num)), panelX + 15, y, COLOR_GRAY);
-        context.drawTextWithShadow(this.textRenderer, Text.of(label), panelX + 35, y, labelColor);
-        context.drawTextWithShadow(this.textRenderer, Text.of(value), panelX + panelW - 80, y, valueColor);
+        context.drawTextWithShadow(this.textRenderer, net.minecraft.text.Text.literal(String.valueOf(num)), panelX + 15, y, COLOR_GRAY);
+        context.drawTextWithShadow(this.textRenderer, net.minecraft.text.Text.literal(label), panelX + 35, y, labelColor);
+        context.drawTextWithShadow(this.textRenderer, net.minecraft.text.Text.literal(value), panelX + panelW - 80, y, valueColor);
     }
 
     private String getDurabilityString() {
@@ -308,29 +312,60 @@ public class XqbkScreen extends Screen {
     }
 
     private static class GreenButton extends ButtonWidget {
-        private final int borderColor;
+        protected final int borderColor;
 
         public GreenButton(int x, int y, int width, int height, String text, PressAction onPress, int borderColor) {
-            super(x, y, width, height, net.minecraft.text.Text.of(text), onPress, DEFAULT_NARRATION_SUPPLIER);
+            super(x, y, width, height, net.minecraft.text.Text.literal(text), onPress, DEFAULT_NARRATION_SUPPLIER);
             this.borderColor = borderColor;
         }
 
         @Override
-        protected void drawIcon(DrawContext context, int x, int y, float delta) {
+        protected void drawIcon(DrawContext context, int mouseX, int mouseY, float delta) {
+            // Renderowanie tła
             int bgColor = this.isHovered() ? 0xFF1A3A1A : 0xFF0A1A0A;
             context.fill(getX(), getY(), getX() + width, getY() + height, bgColor);
 
-            context.fill(getX(), getY(), getX() + width, getY() + 1, borderColor);
-            context.fill(getX(), getY() + height - 1, getX() + width, getY() + height, borderColor);
-            context.fill(getX(), getY(), getX() + 1, getY() + height, borderColor);
-            context.fill(getX() + width - 1, getY(), getX() + width, getY() + height, borderColor);
+            // Renderowanie ramki
+            int colorToDraw = getBorderColor();
+            context.fill(getX(), getY(), getX() + width, getY() + 1, colorToDraw);
+            context.fill(getX(), getY() + height - 1, getX() + width, getY() + height, colorToDraw);
+            context.fill(getX(), getY(), getX() + 1, getY() + height, colorToDraw);
+            context.fill(getX() + width - 1, getY(), getX() + width, getY() + height, colorToDraw);
 
+            // Renderowanie tekstu
             var tr = net.minecraft.client.MinecraftClient.getInstance().textRenderer;
-            int textWidth = tr.getWidth(getMessage());
+            net.minecraft.text.Text msg = getMessage();
+            int textWidth = tr.getWidth(msg);
             int textX = getX() + (width - textWidth) / 2;
             int textY = getY() + (height - 8) / 2;
-            int textColor = this.isHovered() ? 0xFFFFFFFF : borderColor;
-            context.drawTextWithShadow(tr, getMessage(), textX, textY, textColor);
+            int textColor = this.isHovered() ? 0xFFFFFFFF : colorToDraw;
+            context.drawTextWithShadow(tr, msg, textX, textY, textColor);
+        }
+
+        protected int getBorderColor() {
+            return borderColor;
+        }
+    }
+
+    private static class StatusButton extends GreenButton {
+        private final java.util.function.Supplier<String> textSupplier;
+        private final java.util.function.Supplier<Integer> colorSupplier;
+
+        public StatusButton(int x, int y, int width, int height, java.util.function.Supplier<String> textSupplier,
+                PressAction onPress, java.util.function.Supplier<Integer> colorSupplier) {
+            super(x, y, width, height, "", onPress, 0);
+            this.textSupplier = textSupplier;
+            this.colorSupplier = colorSupplier;
+        }
+
+        @Override
+        public net.minecraft.text.Text getMessage() {
+            return net.minecraft.text.Text.literal(textSupplier.get());
+        }
+
+        @Override
+        protected int getBorderColor() {
+            return colorSupplier.get();
         }
     }
 }
