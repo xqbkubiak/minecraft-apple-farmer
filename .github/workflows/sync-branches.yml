@@ -3,7 +3,10 @@ name: Sync Version Branches
 on:
   push:
     branches:
-      - master # Lub main, zależnie od tego na czym pracujesz
+      - main
+
+permissions:
+  contents: write
 
 jobs:
   sync:
