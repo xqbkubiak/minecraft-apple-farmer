@@ -1,70 +1,63 @@
-# 🍎 Apple Bot
+# 🍎 Apple Bot v3.0
 
 <p align="center">
-  <img src="src/main/resources/assets/applebot/icon_v2.png" alt="Apple Bot Logo" width="128" height="128">
+  <img src="common/src/main/resources/assets/applebot/icon_v2.png" alt="Apple Bot Logo" width="128" height="128">
 </p>
 
 <p align="center">
-  <b>Automated Apple Farming Bot for Minecraft</b><br>
-  <i>Run in background while you do other things! 🖥️</i>
+  <b>Advanced Automated Apple Farming for Minecraft</b><br>
+  <i>A high-performance background bot engineered for precision apple farming and maximum yield. 🖥️</i>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Minecraft-1.21.4-brightgreen?style=flat-square" alt="Minecraft Version">
+  <a href="https://github.com/xqbkubiak/minecraft-apple-farmer/releases">
+    <img src="https://img.shields.io/badge/Minecraft-1.20.1--1.21.11-brightgreen?style=flat-square" alt="Minecraft Version">
+  </a>
   <img src="https://img.shields.io/badge/Mod%20Loader-Fabric-blue?style=flat-square" alt="Fabric">
-  <img src="https://img.shields.io/badge/Version-2.7-orange?style=flat-square" alt="Version">
+  <img src="https://img.shields.io/badge/Version-3.0-orange?style=flat-square" alt="Version">
   <img src="https://img.shields.io/badge/Java-21+-red?style=flat-square" alt="Java">
 </p>
 
+---
+
 ## 📌 Description
 
-Apple Bot is an **AFK farming automation mod** designed for apple farming on Minecraft servers. It automatically cycles through hotbar slots, places leaves, and breaks them with shears - all while keeping you fed and your tools repaired. 
+**Apple Bot 3.0** is a professional-grade AFK farming automation mod. It allows you to take your orchard to the next level with advanced automated harvesting. ENGINEERED for efficiency, it works seamlessly in the background while you focus on other tasks.
 
-**🖥️ Works in background!** You can minimize Minecraft and do other things while the bot farms for you. Perfect for servers with apple-based economies!
-
-If you use this mod and find it helpful, feel free to share the love! ❤️
+**🖥️ Seamless Background Operation:** Minimize Minecraft and work, watch movies, or play other games. Apple Bot handles everything with extreme precision.
 
 ---
 
 ## ✨ Features
 
-### 🤖 Core Automation
-- **Automatic Leaf Breaking** - Cycles through hotbar slots, places leaves, and breaks them with shears
-- **Smart Tool Rotation** - Automatically switches between placement and breaking tools
-- **Cycle Counter** - Track your farming progress in real-time
+### 🤖 Advanced Automation
+- **High-Performance Harvesting** - Optimized cycles for maximum apple yield.
+- **Background Mode** - Full automation even when the game window is not focused.
+- **Smart Tool Rotation** - Intelligent switching between shears and leaf placement.
+- **Auto-Restock System** - Intelligence-driven supply replenishment. The bot automatically faces a chest, opens it, and refills on leaves and iron when running low.
+- **Cycle Monitoring** - Real-time tracking of your farming progress.
 
-### 🔧 Tool Management
-- **Auto Repair (Command Mode)** - Automatically executes server repair commands when tools are damaged
-- **Auto Craft (Craft Mode)** - Crafts new shears from iron ingots when the current ones break
-- **Customizable Repair Command** - Set your server's specific repair command
+### 🔧 Tool & Resource Management
+- **Auto Repair (Command/Craft)** - Keeps your tools ready using server commands or local crafting.
+- **Inventory Management** - Intelligent hotbar cycling and usage.
 
-### 🍖 Survival Features
-- **Auto-Eat** - Automatically eats food from your hotbar when hungry
-- **Hunger Threshold** - Configurable hunger level to trigger eating
-- **Smart Food Detection** - Detects any food item in your hotbar
+### 🍖 Survival & Utility
+- **Auto-Eat System** - Never go hungry with configurable auto-eating.
+- **Storage Integration** - Automatically deposit your loot into chests after a set number of cycles.
+- **Anti-Stacking Pickup** - Smart pauses to ensure every apple is collected, even on laggy servers.
 
-### 📦 Storage Integration
-- **Auto Storage Mode** - Automatically deposits apples into nearby chests
-- **Configurable Cycles** - Set how many farming cycles before depositing (20/100/500/1000/2000)
-- **Smart Chest Interaction** - Rotates to chest, deposits apples, returns to farming
-
-### 🧲 Pickup System
-- **Anti-Stacking Solution** - Addresses server-side item stacking issues that prevent pickup
-- **Smart Pause** - Periodically pauses farming to allow items to be collected/magnetized
-- **Configurable** - Set interval cycles and wait time to match your server's physics
-
-### 🌍 Localization
-- **Multi-language Support** - Full Polish and English translations
-- **Easy Switching** - Switch language with a simple command
+### 🌍 Multi-Version & Polish Support
+- **Full Localization** - Professional Polish and English translations (`/bka pl` / `/bka en`).
+- **Versatile Support** - One codebase, perfectly synced for Minecraft 1.20.x and 1.21.x.
 
 ---
 
 ## 📥 Installation
 
-1. Install [Fabric Loader](https://fabricmc.net/use/) for Minecraft 1.21.4
-2. Download and install [Fabric API](https://modrinth.com/mod/fabric-api)
-3. Download Apple Bot and place it in your `mods` folder
-4. Launch Minecraft and enjoy!
+1. Select your Minecraft version from the [Branches](https://github.com/xqbkubiak/minecraft-apple-farmer/branches) dropdown OR go straight to [Releases](https://github.com/xqbkubiak/minecraft-apple-farmer/releases).
+2. Download the appropriate `.jar` file.
+3. Ensure you have [Fabric Loader](https://fabricmc.net/use/) and [Fabric API](https://modrinth.com/mod/fabric-api) installed.
+4. Drop the mod into your `mods` folder and launch!
 
 ---
 
@@ -74,73 +67,25 @@ If you use this mod and find it helpful, feel free to share the love! ❤️
 
 | Command | Description |
 |---------|-------------|
-| `/xqbk` | Show help menu |
-| `/xqbk gui` | Open control panel GUI |
-| `/xqbk start` | Start the bot |
-| `/xqbk stop` | Stop the bot |
-| `/xqbk config delay <1-20>` | Set tick delay (speed) |
-| `/xqbk config repairmode <off/command/craft>` | Set repair mode |
-| `/xqbk config repaircmd <command>` | Set repair command |
-| `/xqbk config autoeat <on/off>` | Toggle auto-eating |
-| `/xqbk config storage <on/off> [cycles]` | Configure storage mode |
-| `/xqbk config pickupcooldown <cycles> <seconds>` | Set pickup cooldown (0 to disable) |
-| `/xqbk pl` | Switch to Polish |
-| `/xqbk en` | Switch to English |
-
-### GUI Controls
-Open the control panel with `/xqbk gui` to access all settings through a beautiful, Minecraft-styled interface.
-
-### Hotbar Setup
-For optimal use, set up your hotbar like this:
-- **Slot 1**: Shears (or tool for breaking leaves)
-- **Slot 2**: Food (if Auto-Eat enabled)
-- **Slots 3-9**: Leaves to place and break
+| `/bka` | Show help menu |
+| `/bka gui` | Open professional control panel |
+| `/bka start` / `/bka stop` | Control the bot |
+| `/bka config <setting>` | Fine-tune your farming experience |
+| `/bka pl` / `/bka en` | Change language instantly |
 
 ---
 
-## ⚙️ Configuration
+## 📸 Screenshots & Media
 
-The mod automatically generates a configuration file at `config/applebot.json`.
-You can edit this file manually or use the in-game commands. **All changes made via commands are automatically saved!**
-
-### Repair Modes
-- **OFF** - No automatic tool repair
-- **COMMAND** - Uses server command (default: `/repair`)
-- **CRAFT** - Crafts new shears from iron ingots in your inventory
-
-### Speed Settings
-- **Delay 1-2**: Very fast (may cause issues on some servers)
-- **Delay 3-5**: Fast (recommended)
-- **Delay 6-10**: Medium
-- **Delay 11-20**: Slow (for laggy servers)
-
-### Pickup Cooldown
-- **Function**: Pauses farming every X cycles to wait for item pickup
-- **Usage**: `/xqbk config pickupcooldown <cycles> <seconds>`
-- **Example**: `/xqbk config pickupcooldown 50 5` (Pause every 50 cycles for 5 seconds)
-- **Disable**: Set cycles to 0 (or use `/xqbk config pickupcooldown off`)
+Check out our latest gallery and community videos on [bkubiak.dev/mods](https://bkubiak.dev/mods).
 
 ---
 
-## 🔧 Requirements
+## 🤝 Support & Community
 
-- Minecraft 1.21.4
-- Fabric Loader ≥0.16.10
-- Fabric API
-- Java 21+
-
----
-
-## 📸 Screenshots
-
-*Screenshots coming soon*
-
----
-
-## 🤝 Support
-
-- **Discord**: [discord.com/invite/getnotify](https://discord.com/invite/getnotify)
-- **GitHub**: [github.com/xqbkubiak](https://github.com/xqbkubiak)
+- **Website**: [bkubiak.dev/mods](https://bkubiak.dev/mods)
+- **Discord**: [dc.bkubiak.dev](https://dc.bkubiak.dev)
+- **GitHub**: [@xqbkubiak](https://github.com/xqbkubiak)
 
 ---
 
@@ -148,8 +93,6 @@ You can edit this file manually or use the in-game commands. **All changes made 
 
 MIT License © 2025 bkubiakdev
 
----
-
 <p align="center">
-  Made with ❤️ for the Minecraft community
+  Made with ❤️ for the advanced Minecraft farming community
 </p>

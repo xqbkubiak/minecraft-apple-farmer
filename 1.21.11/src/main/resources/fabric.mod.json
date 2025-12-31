@@ -1,0 +1,33 @@
+{
+    "schemaVersion": 1,
+    "id": "applebot",
+    "version": "${version}",
+    "name": "Apple Bot",
+    "description": "Take your orchard to the next level with advanced automated harvesting. A high-performance background bot engineered for precision apple farming and maximum yield.",
+    "authors": [
+        "bkubiakdev"
+    ],
+    "contact": {
+        "homepage": "https://bkubiak.dev/mods"
+    },
+    "license": "MIT",
+    "icon": "assets/applebot/icon_v2.png",
+    "environment": "*",
+    "entrypoints": {
+        "main": [
+            "com.bkubiak.applebot.AppleBot"
+        ],
+        "client": [
+            "com.bkubiak.applebot.AppleBotClient"
+        ]
+    },
+    "mixins": [
+        "applebot.mixins.json"
+    ],
+    "depends": {
+        "fabricloader": ">=0.16.10",
+        "minecraft": "1.21.11",
+        "java": ">=21",
+        "fabric-api": "*"
+    }
+}

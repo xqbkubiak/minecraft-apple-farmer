@@ -1,0 +1,13 @@
+dependencies {
+    // Fabric API is needed for common code usually
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.ver_1_21_4_fabric}"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    // Use 1.21.4 as reference for common content
+    minecraft "com.mojang:minecraft:${project.ver_1_21_4_minecraft}" 
+    mappings "net.fabricmc:yarn:${project.ver_1_21_4_yarn}:v2"
+}
+
+// Force Java 17 compatibility for common so it works on 1.20.x
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 17
+}

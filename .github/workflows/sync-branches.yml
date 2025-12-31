@@ -1,0 +1,81 @@
+name: Sync Version Branches
+
+on:
+  push:
+    branches:
+      - master # Lub main, zależnie od tego na czym pracujesz
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Sync 1.20.1
+        run: |
+          git subtree split --prefix=1.20.1 -b temp-1.20.1
+          git push origin temp-1.20.1:ver/1.20.1 --force
+          git branch -D temp-1.20.1
+
+      - name: Sync 1.20.4
+        run: |
+          git subtree split --prefix=1.20.4 -b temp-1.20.4
+          git push origin temp-1.20.4:ver/1.20.4 --force
+          git branch -D temp-1.20.4
+
+      - name: Sync 1.20.6
+        run: |
+          git subtree split --prefix=1.20.6 -b temp-1.20.6
+          git push origin temp-1.20.6:ver/1.20.6 --force
+          git branch -D temp-1.20.6
+
+      - name: Sync 1.21.1
+        run: |
+          git subtree split --prefix=1.21.1 -b temp-1.21.1
+          git push origin temp-1.21.1:ver/1.21.1 --force
+          git branch -D temp-1.21.1
+
+      - name: Sync 1.21.3
+        run: |
+          git subtree split --prefix=1.21.3 -b temp-1.21.3
+          git push origin temp-1.21.3:ver/1.21.3 --force
+          git branch -D temp-1.21.3
+
+      - name: Sync 1.21.4
+        run: |
+          git subtree split --prefix=1.21.4 -b temp-1.21.4
+          git push origin temp-1.21.4:ver/1.21.4 --force
+          git branch -D temp-1.21.4
+
+      - name: Sync 1.21.5
+        run: |
+          git subtree split --prefix=1.21.5 -b temp-1.21.5
+          git push origin temp-1.21.5:ver/1.21.5 --force
+          git branch -D temp-1.21.5
+
+      - name: Sync 1.21.6
+        run: |
+          git subtree split --prefix=1.21.6 -b temp-1.21.6
+          git push origin temp-1.21.6:ver/1.21.6 --force
+          git branch -D temp-1.21.6
+
+      - name: Sync 1.21.8
+        run: |
+          git subtree split --prefix=1.21.8 -b temp-1.21.8
+          git push origin temp-1.21.8:ver/1.21.8 --force
+          git branch -D temp-1.21.8
+
+      - name: Sync 1.21.10
+        run: |
+          git subtree split --prefix=1.21.10 -b temp-1.21.10
+          git push origin temp-1.21.10:ver/1.21.10 --force
+          git branch -D temp-1.21.10
+
+      - name: Sync 1.21.11
+        run: |
+          git subtree split --prefix=1.21.11 -b temp-1.21.11
+          git push origin temp-1.21.11:ver/1.21.11 --force
+          git branch -D temp-1.21.11

@@ -1,0 +1,35 @@
+dependencies {
+    minecraft "com.mojang:minecraft:${project.ver_1_21_1_minecraft}"
+    mappings "net.fabricmc:yarn:${project.ver_1_21_1_yarn}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.ver_1_21_1_fabric}"
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs += ["../common/src/main/java"]
+        }
+        resources {
+            srcDirs += ["../common/src/main/resources"]
+        }
+    }
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+base {
+    archivesName = "${project.archives_base_name}-1.21.1"
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": inputs.properties.version
+    }
+}

@@ -1,0 +1,42 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*' # Triggers on tags starting with v, e.g., v3.0
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Grant Execute Permission for Gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Rename JARs for Release
+        run: |
+          mkdir -p final_jars
+          find . -name "*.jar" -not -name "*-dev.jar" -not -name "*-sources.jar" -not -path "./final_jars/*" -exec cp {} final_jars/ \;
+          cd final_jars
+          for f in *-3.0.jar; do mv "$f" "${f%-3.0.jar}.jar"; done
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: final_jars/*.jar
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
